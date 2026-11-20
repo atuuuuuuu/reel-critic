@@ -32,6 +32,6 @@ MIT
 
 ## Install
 ```bash
-git clone https://github.com/<you>/reel-critic ~/.claude/skills/reel-critic
+git clone https://github.com/atuuuuuuu/reel-critic ~/.claude/skills/reel-critic
 ```
 Then ask Claude Code to "review this reel" or run `/reel-critic` after a build.
