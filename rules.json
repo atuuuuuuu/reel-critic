@@ -1,0 +1,18 @@
+{
+  "_why": "Thresholds for tools/critic.py. Defaults from the stickman3d format and the research in README.md; tools/stats.py suggests changes from the channel's own numbers.",
+  "length_s": [40, 68],
+  "max_mb": 300,
+  "lufs": [-11.5, -8.5],
+  "max_tp": -1.0,
+  "voice_start_s": 0.3,
+  "max_gap_s": 0.9,
+  "voice_over_bed_db": 9,
+  "hook_motion": 1.0,
+  "still_window_s": 2.0,
+  "still_change": 4.0,
+  "cut_step": 40,
+  "max_hard_cuts": 2,
+  "max_wer": 0.08,
+  "safe": [100, 220, 980, 1500],
+  "caption_band": [1250, 1420]
+}
