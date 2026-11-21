@@ -6,7 +6,7 @@ description: Reviews a finished 9:16 reel (TikTok, Instagram Reels, YouTube Shor
 # /reel-critic
 
 A reel is not finished until it passes. Run this after `make.sh` writes `<reel>/<name>.mp4`.
-`PY` is the stickman kit Python (numpy): `PY="$HOME/.claude/plugins/cache/claude-animation-skills/animation-skills/1.0.0/kit/.venv/bin/python"`. `CRITIC="<base directory of this skill>"`.
+`PY` is any Python 3 with numpy (`PY=python3`; with the stickman engine, its kit Python works). `CRITIC="<base directory of this skill>"`.
 
 ## 1. Words
 Transcribe the final mp4: `bash "$CRITIC/tools/stt.sh" <reel> [video] [mon|eng]` (ElevenLabs Scribe via Composio, writes `audio/stt_final.json`).
@@ -41,7 +41,7 @@ A frame in the middle of a whip glide may be blurred or show empty ground: that 
 PASS only when step 2 exits 0, step 3 has no findings, and step 1's diff list has no word the voice actually got wrong (listen to the listed words; STT spelling slips do not count).
 On FAIL, redo only what failed, then run steps 1 to 3 again. Stop after 3 rounds and show the user what still fails.
 - camera / framing at a few times: edit `web/shots.js`, check with `render.js stills`, then `bash "$CRITIC/tools/rerender.sh" <reel> <t1,t2,...>` (re-renders only the shots covering those times, re-concats, re-masters). A change to a set seen in many shots needs the full `make.sh`.
-- voice line: re-record that line (stickman3dmn: `retake.py` or the ElevenLabs web app), rebuild word times, `make.sh <reel> keep`.
+- voice line: re-record that line (ElevenLabs, or your TTS), rebuild word times, rebuild the mix (`make.sh <reel> keep` with the stickman engine).
 - mix / loudness: edit `audio.py`, `AUDIO_ONLY=1 make.sh <reel> keep`.
 - script / length: back to the user; the script is theirs to approve.
 

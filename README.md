@@ -1,6 +1,18 @@
 # reel-critic
 
+![license](https://img.shields.io/badge/license-MIT-blue) ![claude code](https://img.shields.io/badge/Claude%20Code-skill-orange)
+
 A Claude Code skill that reviews a finished 9:16 reel before it is posted and sends it back until it passes.
+
+```
+$ python3 tools/critic.py ~/reels/metro
+| check                  | result | value         | want                    |
+| loudness               | PASS   | -11.2         | -11.5 to -8.5 LUFS      |
+| voice starts           | PASS   | 0.1           | <= 0.3 s                |
+| picture keeps changing | FAIL   | [[7.7, 2.2]]  | no stretch > 2.0 s ...  |  -> redo: camera
+...
+```
+Then Claude reads contact sheets (one frame a second, safe zone and caption band drawn on) for faces under captions, cut-off subjects and covered signs, fixes only the failing step, and checks again. See [`examples/rounds.md`](examples/rounds.md) for a real reel that took three rounds.
 It was built for the `/stickman3d` engine (code-animated stick-figure shorts) but the checks work on any vertical mp4.
 
 - `tools/critic.py`: measured checks (format, loudness, voice timing, voice over music, hook motion, still stretches, hard cuts, words vs script) and contact sheets with the safe zone and caption band drawn on.
@@ -23,6 +35,9 @@ Nothing here is an official platform number: TikTok, Instagram and YouTube publi
 - LLM-as-judge in n8n pipelines: a generator agent followed by a judge with a strict rubric and structured output ([automation exercise](https://louischancly.github.io/automation-exercise/exercises/03-llm-as-judge/part-b-workflow)); human review before upload ([n8n workflow 10644](https://n8n.io/workflows/10644-create-and-auto-publish-youtube-content-with-gemini-ai-face-thumbnails-and-human-review/)).
 - Claude Code skills for posting: [sergebulaev/tiktok-skills](https://github.com/sergebulaev/tiktok-skills), [sergebulaev/instagram-skills](https://github.com/sergebulaev/instagram-skills), [cross-post to TikTok, Reels and Shorts](https://dev.to/fheijdenrijk/cross-post-video-to-tiktok-reels-and-shorts-with-claude-code-check-the-file-write-three-texts-b30). None of them reviews the video itself; that gap is why this skill exists.
 - YouTube is adding its own pre-publish feedback for Shorts ([Search Engine Journal](https://www.searchenginejournal.com/youtube-gives-you-feedback-on-shorts-before-publishing/589088/)).
+
+## Usage
+After a build, ask Claude Code to "review this reel" or run `/reel-critic`. Without Claude, `python3 tools/critic.py <reel-folder> [video.mp4]` prints the measured table and exits 1 on a fail (usable in CI). A reel folder needs the mp4; `script.json`, `captions.json` and `audio/vo.wav` enable the word and voice-over-music checks.
 
 ## Requirements
 ffmpeg, Python 3 with numpy, the Composio CLI (ElevenLabs, Instagram, TikTok connections) and, for `rerender.sh`, the stickman3d engine with Playwright and Chrome.
